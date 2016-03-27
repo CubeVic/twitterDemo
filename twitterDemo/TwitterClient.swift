@@ -102,19 +102,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     }
     
-    func retweetWithCompletion(id: Int, success: Tweet -> (), failure: (NSError) -> ()) {
-//        POST("1.1/statuses/retweet/\(id).json",
-//            parameters: nil,
-//            progress: { (progress: NSProgress) -> Void in },
-//            success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
-//                let tweet = Tweet(dictionary: response as! NSDictionary)
-//                completion(tweet: tweet, error: nil)
-//            },
-//            failure: { (operation: NSURLSessionDataTask?, error: NSError!) -> Void in
-//                print("error retweeting")
-//                completion(tweet: nil, error: error)
-//        })
-        
+    func retweet(id: Int, success: Tweet -> (), failure: (NSError) -> ()) {
         POST("1.1/statuses/retweet/\(id).json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             let dictionary = response as! NSDictionary
             let newRetweet = Tweet(dictionary: dictionary)
@@ -123,6 +111,19 @@ class TwitterClient: BDBOAuth1SessionManager {
             }) { (task: NSURLSessionDataTask?, error: NSError) -> Void in
             print("error: \(error.localizedDescription)")
         }
+    }
+    
+    
+    func favoriteTweet(id: Int, success: Tweet -> (), failure: (NSError) -> () ){
+        let param = ["id" : id]
+        POST("1.1/favorites/create.json", parameters: param , progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            let dictionary = response as! NSDictionary
+            let favoriteTweet = Tweet(dictionary: dictionary)
+            success(favoriteTweet)
+        }) { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+            print("error: \(error.localizedDescription)")
+        }
+    
     }
     
 }

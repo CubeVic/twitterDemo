@@ -10,6 +10,7 @@ import UIKit
 
 @objc protocol TweetDetailsViewControllerDelegate {
     optional func newRetweet(tweetDetailsViewController: TweetDetailsViewController, didRetweet newRetweet: Tweet)
+    optional func favoriteTweet(tweetDetailsViewController: TweetDetailsViewController, didFavorite favorite: Tweet)
 }
 
 class TweetDetailsViewController: UIViewController {
@@ -55,7 +56,7 @@ class TweetDetailsViewController: UIViewController {
 
     @IBAction func onReTweet(sender: AnyObject) {
         let statusId = Int(tweet.statusId as! String)
-        TwitterClient.sharedInstance.retweetWithCompletion(statusId!, success: { (newRetweet: Tweet) -> () in
+        TwitterClient.sharedInstance.retweet(statusId!, success: { (newRetweet: Tweet) -> () in
            self.delegate?.newRetweet!(self, didRetweet: newRetweet)
            self.navigationController?.popToRootViewControllerAnimated(true)
         }) { (error: NSError) -> () in
@@ -64,14 +65,18 @@ class TweetDetailsViewController: UIViewController {
 
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func onReply(sender: AnyObject) {
+        
     }
-    */
-
+    
+    @IBAction func onLike(sender: AnyObject) {
+        let statusId = Int(tweet.statusId as! String)
+        TwitterClient.sharedInstance.favoriteTweet(statusId!, success: { (favoriteTweet: Tweet) -> () in
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }) { (error: NSError) -> () in
+            print("error: \(error.localizedDescription)")
+        }
+    }
+    
 }
