@@ -27,18 +27,20 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [X] differente state of the Like icon, gray is not likes, purple but not full is that i has likes but not i dotn like it, and the full purple heart is when i like it too
+- [X] in the new tweet screen is a counter that tell me how many characters i used until the moment
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1. There is still confuising when to use AFNetworking and BDBOAuth1Manager (may need more practices)
-2. 
+2. i couldn't implement the reply 
+3. it is still confusing the delegates
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='Walkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -46,6 +48,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 1. the Auto layout still consume lot of time, i did it several times
 2. Pass data in clouses is still not clear and i need to re watch the videos to understand it.
+Important
+In order to update the icons in the timeline i use willLoad() method 
 
 ## License
 
