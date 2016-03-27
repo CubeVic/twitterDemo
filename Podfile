@@ -6,5 +6,7 @@ use_frameworks!
 target 'twitterDemo' do
 	pod 'AFNetworking'
 	pod 'BDBOAuth1Manager'
+    pod 'MBProgressHUD'
+    pod 'SwiftHEXColors'
 end
 

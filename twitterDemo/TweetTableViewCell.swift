@@ -16,6 +16,11 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var tweetTextLabel: UILabel!
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var replyImageView: UIImageView!
+    @IBOutlet weak var retweetImageView: UIImageView!
+    @IBOutlet weak var retweetCountLabel: UILabel!
+    @IBOutlet weak var likeImageView: UIImageView!
+    @IBOutlet weak var likeCountLabel: UILabel!
     
     var tweet: Tweet! {
         didSet{
@@ -37,6 +42,31 @@ class TweetTableViewCell: UITableViewCell {
             
             timestampLabel.text = calculateTime(NSDate().timeIntervalSinceDate(tweet.timestamp!))
 
+            replyImageView.image = UIImage(named:"reply_off")
+            
+       
+            retweetCountLabel.text = "\(tweet.retweetCount)"
+            if tweet.retweetCount > 0 {
+                retweetImageView.image = UIImage(named:"retweet_on")
+            } else {
+                retweetImageView.image = UIImage(named:"retweet_off")
+            }
+            
+
+            likeCountLabel.text = "\(tweet.favoritesCount)"
+            let favorited = tweet.favorited! as Bool
+            if tweet.favoritesCount > 0 {
+                if favorited == true {
+                    likeImageView.image = UIImage(named:"liked")
+                } else {
+                    likeImageView.image = UIImage(named:"like_on")
+                }
+            } else {
+                likeImageView.image = UIImage(named:"like_off")
+            }
+            
+            
+            
         }
     }
     

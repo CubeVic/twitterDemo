@@ -14,7 +14,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-twitterDemo.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftHEXColors.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -27,12 +37,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>26DA21AF0D0E0100277E6F3899B226D4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>445B3D47256376A8FB06D383FDBEA0C4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7A20ECB10DF649BFD76DED78C0AF3B9B</key>
+		<key>6D01528C2DACDCC0FDA3D51B6B1468B4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E61CE3B6DFA1FE6B3E296965C76C0E10</key>
 		<dict>
 			<key>primary</key>
 			<true/>

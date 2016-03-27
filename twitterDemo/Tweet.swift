@@ -20,6 +20,7 @@ class Tweet: NSObject {
     var timestamp: NSDate?
     var retweetCount: Int = 0
     var favoritesCount: Int = 0
+    var favorited: Bool?
     
     //2.  build the constructor.
     init(dictionary: NSDictionary) {
@@ -31,7 +32,8 @@ class Tweet: NSObject {
         text = dictionary["text"] as? String
         screenName = user["screen_name"] as? String
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
-        favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
+        favoritesCount = (dictionary["favorite_count"] as? Int) ?? 0
+        favorited = dictionary["favorited"] as! Bool
         
         let timestampString = dictionary["created_at"] as? String
         
