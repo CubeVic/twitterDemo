@@ -25,6 +25,7 @@ class TweetDetailsViewController: UIViewController {
     
     weak var delegate: TweetDetailsViewControllerDelegate?
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,7 +68,6 @@ class TweetDetailsViewController: UIViewController {
     }
     
     @IBAction func onReply(sender: AnyObject) {
-        
     }
     
     @IBAction func onLike(sender: AnyObject) {
@@ -79,4 +79,9 @@ class TweetDetailsViewController: UIViewController {
         }
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let newTweetViewController = segue.destinationViewController as! NewTweetViewController
+        newTweetViewController.isReply = true
+        newTweetViewController.isReplyTo = tweet.statusId as! String
+    }
 }

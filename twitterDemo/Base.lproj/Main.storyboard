@@ -311,6 +311,7 @@
                                 </state>
                                 <connections>
                                     <action selector="onReply:" destination="FeX-43-MFj" eventType="touchUpInside" id="H3M-NS-FqY"/>
+                                    <segue destination="oMg-SE-Ic7" kind="push" identifier="ReplyTweet" id="usJ-zp-Tr4"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -425,4 +426,7 @@
         <image name="reply_off" width="16" height="16"/>
         <image name="retweet_off" width="16" height="16"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="usJ-zp-Tr4"/>
+    </inferredMetricsTieBreakers>
 </document>

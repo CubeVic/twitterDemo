@@ -44,7 +44,7 @@ class TweetTableViewCell: UITableViewCell {
 
             replyImageView.image = UIImage(named:"reply_off")
             
-       
+            let isRetweeted = tweet.isRetweeted
             retweetCountLabel.text = "\(tweet.retweetCount)"
             if tweet.retweetCount > 0 {
                 retweetImageView.image = UIImage(named:"retweet_on")
@@ -52,19 +52,17 @@ class TweetTableViewCell: UITableViewCell {
                 retweetImageView.image = UIImage(named:"retweet_off")
             }
             
-
+            let isFavorited = tweet.isFavorited!
             likeCountLabel.text = "\(tweet.favoritesCount)"
-            let favorited = tweet.favorited! as Bool
-            if tweet.favoritesCount > 0 {
-                if favorited == true {
-                    likeImageView.image = UIImage(named:"liked")
-                } else {
-                    likeImageView.image = UIImage(named:"like_on")
-                }
+            if isFavorited {
+                likeImageView.image = UIImage(named:"liked")
             } else {
+                if tweet.favoritesCount > 0 {
+                    likeImageView.image = UIImage(named:"like_on")
+                } else {
                 likeImageView.image = UIImage(named:"like_off")
+                }
             }
-            
             
             
         }

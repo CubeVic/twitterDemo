@@ -18,11 +18,15 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var wordCounterLabel: UILabel!
     var numberCharacters: Int!
     
+    var isReply = false
+    var isReplyTo: String!
+    
     weak var delegate: NewTweetViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         newTweetTextField.delegate = self
+
 
     }
 
@@ -45,13 +49,24 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     
 
     @IBAction func onSendNewTweet(sender: AnyObject) {
-        TwitterClient.sharedInstance.postNewTweet(newTweetTextField.text, success: { (NewTweet: Tweet) -> () in
-            self.delegate?.newTweet!(self, didUpdateTweet: NewTweet)
-            self.navigationController?.popToRootViewControllerAnimated(true)
-        }) { (error: NSError) -> () in
-            print("error: \(error.localizedDescription)")
-        }
         
+        if isReply {
+            let param = [ "status" : newTweetTextField.text!, "in_reply_to_status_id" : isReplyTo!]
+            TwitterClient.sharedInstance.relyTweet(param, success: { (NewTweet: Tweet) -> () in
+                self.delegate?.newTweet!(self, didUpdateTweet: NewTweet)
+                self.navigationController?.popToRootViewControllerAnimated(true)
+            }, failure: { (error: NSError) -> () in
+                print("error: \(error.localizedDescription)")
+            })
+            
+        } else {
+            TwitterClient.sharedInstance.postNewTweet(newTweetTextField.text, success: { (NewTweet: Tweet) -> () in
+                self.delegate?.newTweet!(self, didUpdateTweet: NewTweet)
+                self.navigationController?.popToRootViewControllerAnimated(true)
+            }) { (error: NSError) -> () in
+                print("error: \(error.localizedDescription)")
+            }
+        }
     }
     /*
     // MARK: - Navigation
