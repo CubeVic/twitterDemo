@@ -8,6 +8,11 @@
 
 import UIKit
 
+@objc protocol TweetDetailsViewControllerDelegate {
+    optional func newRetweet(tweetDetailsViewController: TweetDetailsViewController, didRetweet newRetweet: Tweet)
+    optional func favoriteTweet(tweetDetailsViewController: TweetDetailsViewController, didFavorite favorite: Tweet)
+}
+
 class TweetDetailsViewController: UIViewController {
 
     @IBOutlet weak var tweetTextLabel: UILabel!
@@ -18,8 +23,11 @@ class TweetDetailsViewController: UIViewController {
     
     var tweet: Tweet!
     
+    weak var delegate: TweetDetailsViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         if let text = tweet.text as? String {
             tweetTextLabel.text = text
@@ -36,7 +44,8 @@ class TweetDetailsViewController: UIViewController {
             screennameLabel.text = "@\(screenname)"
         }
         
-        timestampLabel.text = calculateTime(NSDate().timeIntervalSinceDate(tweet.timestamp!))
+        timestampLabel.text = tweet.calculateTime()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,33 +53,30 @@ class TweetDetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+
+    @IBAction func onReTweet(sender: AnyObject) {
+        let statusId = Int(tweet.statusId as! String)
+        TwitterClient.sharedInstance.retweet(statusId!, success: { (newRetweet: Tweet) -> () in
+           self.delegate?.newRetweet!(self, didRetweet: newRetweet)
+           self.navigationController?.popToRootViewControllerAnimated(true)
+        }) { (error: NSError) -> () in
+            print("error: \(error.localizedDescription)")
+        }
+
+        
+    }
     
-    func calculateTime(timestamp: NSTimeInterval) -> String {
+    @IBAction func onReply(sender: AnyObject) {
         
-        let ti = NSInteger(timestamp)
-        let minutes = (ti / 60) % 60
-        let hours = (ti / 3600)
-        
-        if minutes > 0 && hours <= 0 {
-            return String(format: "%0.1dm",minutes)
-        } else if (hours < 24 || hours > 0) {
-            return String(format: "%0.2dh", hours)
-        } else if (minutes == 0 && hours == 0){
-            return "seconds"
-        } else {
-            return "\(hours/86400)d"
+    }
+    
+    @IBAction func onLike(sender: AnyObject) {
+        let statusId = Int(tweet.statusId as! String)
+        TwitterClient.sharedInstance.favoriteTweet(statusId!, success: { (favoriteTweet: Tweet) -> () in
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }) { (error: NSError) -> () in
+            print("error: \(error.localizedDescription)")
         }
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }

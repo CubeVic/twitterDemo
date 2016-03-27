@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewTweetViewControllerDelegate {
+class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewTweetViewControllerDelegate, TweetDetailsViewControllerDelegate {
     
     var tweets: [Tweet]!
 
@@ -22,21 +22,9 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
         
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
-        tableView.insertSubview(refreshControl, atIndex: 0)
-        
-        TwitterClient.sharedInstance.homeTimeline({ (tweets: [Tweet]) -> () in
-            
-            self.tweets = tweets
-            
-            self.tableView.reloadData()
-//            for tweet in tweets {
-//             print(tweet.text)
-//            }
-            }) { (error: NSError) -> () in
-            print("error: \(error.localizedDescription)")
-        }
+        refresh()
+        getTimeLine()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,10 +72,38 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.reloadData()
     }
     
+    func newRetweet(tweetDetailsViewController: TweetDetailsViewController, didRetweet newRetweet: Tweet) {
+        tweets.insert(newRetweet, atIndex: 0)
+        print("tweets")
+        tableView.reloadData()
+    }
+    
+    func favoriteTweet(tweetDetailsViewController: TweetDetailsViewController, didFavorite favorite: Tweet) {
+        refresh()
+        getTimeLine()
+        tableView.reloadData()
+
+    }
+    
+    func getTimeLine(){
+        TwitterClient.sharedInstance.homeTimeline({ (tweets: [Tweet]) -> () in
+            self.tweets = tweets
+            self.tableView.reloadData()
+    
+            }) { (error: NSError) -> () in
+                print("error: \(error.localizedDescription)")
+        }
+    }
+    
+    func refresh(){
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+    
+    }
 
     func refreshControlAction(refreshControl: UIRefreshControl) {
         TwitterClient.sharedInstance.homeTimeline({ (tweets:[Tweet]) -> () in
-            print("im refreshing ")
             self.tweets = tweets
             self.tableView.reloadData()
             refreshControl.endRefreshing()

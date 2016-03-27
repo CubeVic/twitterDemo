@@ -18,9 +18,12 @@ class Tweet: NSObject {
     var screenName: NSString?
     var text: NSString?
     var timestamp: NSDate?
+    var tsString: NSString?
     var retweetCount: Int = 0
     var favoritesCount: Int = 0
     var favorited: Bool?
+    
+    var statusId: NSString?
     
     //2.  build the constructor.
     init(dictionary: NSDictionary) {
@@ -43,6 +46,7 @@ class Tweet: NSObject {
             timestamp = formatter.dateFromString(timestampString)
         }
         
+        statusId = dictionary["id_str"] as? String
     }
     
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet]{
@@ -55,4 +59,23 @@ class Tweet: NSObject {
         
         return tweets
     }
+    
+    func calculateTime() -> String {
+        
+        let ti = NSInteger(NSDate().timeIntervalSinceDate(timestamp!))
+        let seconds = ti / 60
+        let minutes = (ti / 60) % 60
+        let hours = (ti / 3600)
+        
+        if (minutes == 0 && hours == 0){
+            return String(format: "%0.1ds",seconds)
+        } else if minutes > 0 && hours <= 0 {
+            return String(format: "%0.1dm",minutes)
+        } else if (hours < 24 || hours > 0) {
+            return String(format: "%0.2dh", hours)
+        } else {
+            return "\(hours/86400)d"
+        }
+    }
+    
 }

@@ -40,7 +40,7 @@ class TweetTableViewCell: UITableViewCell {
                 screennameLabel.text = "@\(screenName)"
             }
             
-            timestampLabel.text = calculateTime(NSDate().timeIntervalSinceDate(tweet.timestamp!))
+            timestampLabel.text = tweet.calculateTime()
 
             replyImageView.image = UIImage(named:"reply_off")
             
@@ -80,21 +80,6 @@ class TweetTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func calculateTime(timestamp: NSTimeInterval) -> String {
-            
-            let ti = NSInteger(timestamp)
-            let minutes = (ti / 60) % 60
-            let hours = (ti / 3600)
-        
-        if minutes > 0 && hours <= 0 {
-            return String(format: "%0.1dm",minutes)
-        } else if (hours < 24 || hours > 0) {
-            return String(format: "%0.2dh", hours)
-        } else if (minutes == 0 && hours == 0){
-            return "seconds"
-        } else {
-          return "\(hours/86400)d"
-        }
-    }
+
 
 }
