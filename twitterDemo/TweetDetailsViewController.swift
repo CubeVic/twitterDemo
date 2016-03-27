@@ -20,12 +20,23 @@ class TweetDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tweetTextLabel.text = tweet.text as! String
-        nameLabel.text = tweet.name as! String
+        
+        if let text = tweet.text as? String {
+            tweetTextLabel.text = text
+        }
+        
+        if let name = tweet.name as? String {
+            nameLabel.text = "\(name)"
+        }
         profileImageView.setImageWithURL(tweet.profileImageUrl!)
         profileImageView.layer.cornerRadius = 5
         profileImageView.clipsToBounds = true
-        screennameLabel.text = tweet.screenName as! String
+        
+        if let screenname = tweet.screenName as? String {
+            screennameLabel.text = "@\(screenname)"
+        }
+        
+        timestampLabel.text = calculateTime(NSDate().timeIntervalSinceDate(tweet.timestamp!))
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,6 +44,24 @@ class TweetDetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func calculateTime(timestamp: NSTimeInterval) -> String {
+        
+        let ti = NSInteger(timestamp)
+        let minutes = (ti / 60) % 60
+        let hours = (ti / 3600)
+        
+        if minutes > 0 && hours <= 0 {
+            return String(format: "%0.1dm",minutes)
+        } else if (hours < 24 || hours > 0) {
+            return String(format: "%0.2dh", hours)
+        } else if (minutes == 0 && hours == 0){
+            return "seconds"
+        } else {
+            return "\(hours/86400)d"
+        }
+    }
+
 
     /*
     // MARK: - Navigation
