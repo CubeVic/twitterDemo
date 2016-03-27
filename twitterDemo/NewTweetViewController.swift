@@ -23,7 +23,7 @@ class NewTweetViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         newTweetTextField.delegate = self
-        // Do any additional setup after loading the view.
+
     }
 
     override func didReceiveMemoryWarning() {

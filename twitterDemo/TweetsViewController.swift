@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewTweetViewControllerDelegate {
+class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewTweetViewControllerDelegate, TweetDetailsViewControllerDelegate {
     
     var tweets: [Tweet]!
 
@@ -31,9 +31,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             self.tweets = tweets
             
             self.tableView.reloadData()
-//            for tweet in tweets {
-//             print(tweet.text)
-//            }
+            
             }) { (error: NSError) -> () in
             print("error: \(error.localizedDescription)")
         }
@@ -81,6 +79,12 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     func newTweet(newTweetViewController: NewTweetViewController, didUpdateTweet newTweet: Tweet) {
         tweets.insert(newTweet, atIndex: 0)
+        tableView.reloadData()
+    }
+    
+    func newRetweet(tweetDetailsViewController: TweetDetailsViewController, didRetweet newRetweet: Tweet) {
+        tweets.insert(newRetweet, atIndex: 0)
+        print("tweets")
         tableView.reloadData()
     }
     

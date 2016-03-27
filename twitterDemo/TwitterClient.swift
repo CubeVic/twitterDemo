@@ -101,4 +101,28 @@ class TwitterClient: BDBOAuth1SessionManager {
                 print("error: \(error.localizedDescription)")
         }
     }
+    
+    func retweetWithCompletion(id: Int, success: Tweet -> (), failure: (NSError) -> ()) {
+//        POST("1.1/statuses/retweet/\(id).json",
+//            parameters: nil,
+//            progress: { (progress: NSProgress) -> Void in },
+//            success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
+//                let tweet = Tweet(dictionary: response as! NSDictionary)
+//                completion(tweet: tweet, error: nil)
+//            },
+//            failure: { (operation: NSURLSessionDataTask?, error: NSError!) -> Void in
+//                print("error retweeting")
+//                completion(tweet: nil, error: error)
+//        })
+        
+        POST("1.1/statuses/retweet/\(id).json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            let dictionary = response as! NSDictionary
+            let newRetweet = Tweet(dictionary: dictionary)
+            success(newRetweet)
+            
+            }) { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+            print("error: \(error.localizedDescription)")
+        }
+    }
+    
 }
