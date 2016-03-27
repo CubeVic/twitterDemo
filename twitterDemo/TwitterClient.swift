@@ -102,6 +102,18 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     }
     
+    func relyTweet(param: [String : String], success: Tweet -> (), failure: (NSError) -> ()){
+        let param = param
+        POST("1.1/statuses/update.json", parameters: param, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            let dictionary = response as! NSDictionary
+            let newTweet = Tweet(dictionary: dictionary)
+            success(newTweet)
+            
+            }) { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("error: \(error.localizedDescription)")
+        }
+    }
+    
     func retweet(id: Int, success: Tweet -> (), failure: (NSError) -> ()) {
         POST("1.1/statuses/retweet/\(id).json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
             let dictionary = response as! NSDictionary

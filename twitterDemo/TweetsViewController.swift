@@ -63,8 +63,8 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             let indexPath = tableView.indexPathForCell(cell)
             let vc = segue.destinationViewController as! TweetDetailsViewController
             vc.tweet = tweets[indexPath!.row]
-        
         }
+        
     }
     
     func newTweet(newTweetViewController: NewTweetViewController, didUpdateTweet newTweet: Tweet) {
@@ -115,6 +115,11 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        refresh()
+        getTimeLine()
+    }
     /*
     // MARK: - Navigation
 
